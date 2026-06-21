@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="zh-HK" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onstage Studio - Interactive Multi-Page Theme Sandbox</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: 'var(--bg-main)',
+                            card: 'var(--bg-card)',
+                            cardSub: 'var(--bg-card-sub)',
+                            accent: 'var(--accent)',
+                            accentHover: 'var(--accent-hover)',
+                            neonGreen: '#10B981', // ROI Green
+                            neonPink: '#EC4899', // Creative Pink
+                            text: 'var(--text-main)',
+                            muted: 'var(--text-muted)',
+                            border: 'var(--border-color)',
+                            headerBg: 'var(--header-bg)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* CSS variables to control themes instantly */
+        :root {
+            --bg-main: #070A13;
+            --bg-card: #0F1524;
+            --bg-card-sub: #070A13;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-color: #1E293B;
+            --accent: #6366F1;
+            --accent-hover: #4F46E5;
+            --header-bg: rgba(7, 10, 19, 0.9);
+            --shadow: none;
+        }
+
+        :root.theme-light {
+            --bg-main: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --bg-card-sub: #F1F5F9;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --accent: #4F46E5;
+            --accent-hover: #3730A3;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 16px -6px rgba(15, 23, 42, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Override rules for light theme transition */
+        .theme-light .bg-brand-card {
+            box-shadow: var(--shadow);
+            border-color: var(--border-color);
+        }
+        .theme-light .border-slate-800, 
+        .theme-light .border-slate-850, 
+        .theme-light .border-slate-900,
+        .theme-light .border-slate-950 {
+            border-color: var(--border-color) !important;
+        }
+        .theme-light .bg-slate-950,
+        .theme-light .bg-[#070A13],
+        .theme-light .bg-[#0A0E1A],
+        .theme-light .bg-slate-900 {
+            background-color: var(--bg-card-sub) !important;
+        }
+
+        /* SURGICAL FIX: Prevent dark theme overrides inside primary buttons, badges, and dark mockups */
+        .theme-light .text-white:not(
+            button, button *,
+            a[class*="bg-brand-accent"], a[class*="bg-brand-accent"] *,
+            a[class*="bg-brand-neon"], a[class*="bg-brand-neon"] *,
+            [class*="bg-brand-accent"], [class*="bg-brand-accent"] *,
+            [class*="bg-brand-neon"], [class*="bg-brand-neon"] *,
+            .bg-slate-950, .bg-slate-950 *,
+            .bg-black, .bg-black *,
+            .bg-[#070A13], .bg-[#070A13] *,
+            .bg-[#0A0E1A], .bg-[#0A0E1A] *,
+            .bg-[#04060C], .bg-[#04060C] *,
+            .keep-white, .keep-white *
+        ) {
+            color: var(--text-main) !important;
+        }
+
+        .theme-light .text-slate-100:not(
+            button, button *,
+            a[class*="bg-brand-accent"], a[class*="bg-brand-accent"] *,
+            a[class*="bg-brand-neon"], a[class*="bg-brand-neon"] *,
+            [class*="bg-brand-accent"], [class*="bg-brand-accent"] *,
+            [class*="bg-brand-neon"], [class*="bg-brand-neon"] *,
+            .bg-slate-950, .bg-slate-950 *,
+            .bg-black, .bg-black *,
+            .bg-[#070A13], .bg-[#070A13] *,
+            .bg-[#0A0E1A], .bg-[#0A0E1A] *,
+            .bg-[#04060C], .bg-[#04060C] *,
+            .keep-white, .keep-white *
+        ) {
+            color: var(--text-main) !important;
+        }
+
+        .theme-light .text-slate-200:not(
+            button, button *,
+            a[class*="bg-brand-accent"], a[class*="bg-brand-accent"] *,
+            a[class*="bg-brand-neon"], a[class*="bg-brand-neon"] *,
+            [class*="bg-brand-accent"], [class*="bg-brand-accent"] *,
+            [class*="bg-brand-neon"], [class*="bg-brand-neon"] *,
+            .bg-slate-950, .bg-slate-950 *,
+            .bg-black, .bg-black *,
+            .bg-[#070A13], .bg-[#070A13] *,
+            .bg-[#0A0E1A], .bg-[#0A0E1A] *,
+            .bg-[#04060C], .bg-[#04060C] *,
+            .keep-white, .keep-white *
+        ) {
+            color: var(--text-main) !important;
+        }
+
+        .theme-light .text-slate-300:not(
+            button, button *,
+            a[class*="bg-brand-accent"], a[class*="bg-brand-accent"] *,
+            a[class*="bg-brand-neon"], a[class*="bg-brand-neon"] *,
+            [class*="bg-brand-accent"], [class*="bg-brand-accent"] *,
+            [class*="bg-brand-neon"], [class*="bg-brand-neon"] *,
+            .bg-slate-950, .bg-slate-950 *,
+            .bg-black, .bg-black *,
+            .bg-[#070A13], .bg-[#070A13] *,
+            .bg-[#0A0E1A], .bg-[#0A0E1A] *,
+            .bg-[#04060C], .bg-[#04060C] *,
+            .keep-white, .keep-white *
+        ) {
+            color: var(--text-main) !important;
+        }
+
+        .theme-light .text-slate-400:not(
+            button, button *,
+            a[class*="bg-brand-accent"], a[class*="bg-brand-accent"] *,
+            a[class*="bg-brand-neon"], a[class*="bg-brand-neon"] *,
+            [class*="bg-brand-accent"], [class*="bg-brand-accent"] *,
+            [class*="bg-brand-neon"], [class*="bg-brand-neon"] *,
+            .bg-slate-950, .bg-slate-950 *,
+            .bg-black, .bg-black *,
+            .bg-[#070A13], .bg-[#070A13] *,
+            .bg-[#0A0E1A], .bg-[#0A0E1A] *,
+            .bg-[#04060C], .bg-[#04060C] *,
+            .keep-white, .keep-white *
+        ) {
+            color: var(--text-muted) !important;
+        }
+
+        /* Smart Hover Inversion for Light Mode adaptive buttons */
+        .theme-light button:hover,
+        .theme-light .group:hover button,
+        .theme-light a[class*="bg-brand-accent"]:hover {
+            color: #FFFFFF !important;
+        }
+        .theme-light button:hover *,
+        .theme-light .group:hover button * {
+            color: #FFFFFF !important;
+        }
+
+        .theme-light #master-controller-bar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            border-color: #E2E8F0 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .theme-light #master-controller-bar .text-slate-800 {
+            color: #94A3B8 !important;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Pulse glow animation */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(99, 102, 241, 0.4); }
+            50% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.8); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        
+        .page-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-neonPink selection:text-white relative overflow-x-hidden pt-16">
+
+    <!-- ================= Fig-Style Sticky Page Switcher (Master Controller with LIVE THEME SWITCH) ================= -->
+    <div class="fixed top-0 left-0 right-0 h-16 bg-slate-950/95 border-b-2 border-brand-accent px-4 flex items-center justify-between z-50 shadow-xl transition-all duration-300" id="master-controller-bar">
+        <div class="flex items-center gap-2">
+            <span class="text-xs bg-brand-accent text-white font-extrabold px-2.5 py-1 rounded font-mono tracking-wider">PREVIEW CONTROLLER</span>
+            <!-- Live Light/Dark Theme Switcher! -->
+            <button onclick="toggleTheme()" id="theme-toggle-btn" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-1.5 shrink-0 shadow-md shadow-amber-500/20">
+                ☀️ 切換明亮模式 (Light Mode)
+            </button>
+        </div>
+        
+        <div class="flex items-center gap-1.5 overflow-x-auto max-w-[60%] no-scrollbar py-1">
+            <button onclick="navigateTo('home')" id="btn-home" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-accent text-white flex items-center gap-1 shrink-0">
+                🏠 主頁 (Home)
+            </button>
+            <span class="text-slate-600 text-xs font-bold shrink-0">| Services:</span>
+            <button onclick="navigateTo('creative')" id="btn-creative" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0">
+                🎨 設計 (Creative)
+            </button>
+            <button onclick="navigateTo('marketing')" id="btn-marketing" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0">
+                📈 營銷 (Marketing)
+            </button>
+            <button onclick="navigateTo('production')" id="btn-production" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0">
+                🎬 拍片 (Production)
+            </button>
+            <span class="text-slate-600 text-xs font-bold shrink-0">| Cases:</span>
+            <button onclick="navigateTo('case-luxe')" id="btn-case-luxe" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0">
+                🛋️ Luxe (SEO)
+            </button>
+            <button onclick="navigateTo('case-redefine')" id="btn-case-redefine" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0">
+                💄 REDefine (小紅書)
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= PREMIUM HEADER & MULTI-PAGE NAVIGATION ================= -->
+    <header class="sticky top-0 bg-brand-headerBg backdrop-blur-md border-b border-brand-border px-6 py-4 flex items-center justify-between z-40 transition-all shadow-sm">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+            <span class="text-xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-neonPink">ONSTAGE</span>
+            <span class="text-xs bg-brand-cardSub text-brand-muted font-semibold px-2 py-0.5 rounded tracking-widest font-mono border border-brand-border">STUDIO</span>
+        </div>
+        
+        <!-- Interactive Navigation Links with Page Detection -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-muted">
+            <button onclick="navigateTo('home')" id="nav-home" class="text-brand-text hover:text-brand-text transition-all">Home</button>
+            
+            <!-- OPTIMIZED: Services Dropdown with No-Gap Hover Bridge and Fade Animation -->
+            <div class="relative group py-2">
+                <button class="hover:text-brand-text transition-all flex items-center gap-1.5 py-1">
+                    Services <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="absolute top-full left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out pointer-events-none group-hover:pointer-events-auto z-50">
+                    <div class="bg-brand-card border border-brand-border rounded-xl shadow-xl py-2">
+                        <button onclick="navigateTo('creative')" class="w-full text-left px-4 py-2.5 text-xs text-brand-text hover:text-brand-accent hover:bg-brand-cardSub flex items-center gap-2">
+                            <i class="fa-solid fa-pen-nib text-brand-neonPink"></i> Creative & Brand Design
+                        </button>
+                        <button onclick="navigateTo('marketing')" class="w-full text-left px-4 py-2.5 text-xs text-brand-text hover:text-brand-accent hover:bg-brand-cardSub flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-chart text-brand-neonGreen"></i> Digital Marketing & SEO
+                        </button>
+                        <button onclick="navigateTo('production')" class="w-full text-left px-4 py-2.5 text-xs text-brand-text hover:text-brand-accent hover:bg-brand-cardSub flex items-center gap-2">
+                            <i class="fa-solid fa-camera-retro text-amber-500"></i> Photo & Video Production
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OPTIMIZED: Cases Dropdown with No-Gap Hover Bridge and Fade Animation -->
+            <div class="relative group py-2">
+                <button class="hover:text-brand-text transition-all flex items-center gap-1.5 py-1">
+                    Cases <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                </button>
+                <div class="absolute top-full left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out pointer-events-none group-hover:pointer-events-auto z-50">
+                    <div class="bg-brand-card border border-brand-border rounded-xl shadow-xl py-2">
+                        <button onclick="navigateTo('case-luxe')" class="w-full text-left px-4 py-2.5 text-xs text-brand-text hover:text-brand-accent hover:bg-brand-cardSub flex items-center gap-2">
+                            <i class="fa-solid fa-couch text-brand-neonGreen"></i> Luxe Living (SEO & Ads)
+                        </button>
+                        <button onclick="navigateTo('case-redefine')" class="w-full text-left px-4 py-2.5 text-xs text-brand-text hover:text-brand-accent hover:bg-brand-cardSub flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-neonPink"></i> REDefine Skincare (RED/IG)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="navigateTo('home', 'about')" class="hover:text-brand-text transition-all">Manifesto</button>
+        </nav>
+        
+        <div class="flex items-center gap-4">
+            <!-- Active Page Indicator Badge -->
+            <span id="active-page-badge" class="text-[10px] bg-brand-accent/15 border border-brand-accent/30 text-brand-accent px-3 py-1 rounded-full font-bold hidden lg:inline-block">
+                <i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse text-brand-neonPink"></i> Viewing: HOME
+            </span>
+            <a href="#contact" onclick="navigateTo('home', 'contact')" class="bg-brand-accent hover:bg-brand-accentHover text-white text-xs font-bold px-5 py-2.5 rounded-full transition-all tracking-wider shadow-lg shadow-brand-accent/20 flex items-center gap-1.5">
+                Let's Talk <i class="fa-solid fa-arrow-trend-up"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- ================= PAGE 1: HOME PAGE CONTAINER ================= -->
+    <div id="page-home" class="page-fade-in">
+        <main class="max-w-6xl mx-auto px-4 md:px-8">
+
+            <!-- Hero Section -->
+            <section id="hero" class="relative py-20 md:py-32 flex flex-col items-center justify-center text-center overflow-hidden min-h-[85vh] border-b border-brand-border rounded-3xl my-6">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80" 
+                         alt="Onstage Studio Cyber Workspace BG" 
+                         class="w-full h-full object-cover opacity-15 filter brightness-50"
+                         onerror="this.src='https://placehold.co/1920x1080/070a13/6366f1?text=Creative+Agency+Workspace'">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-brand-dark"></div>
+                </div>
+                
+                <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+                    <div class="inline-flex items-center gap-2 bg-brand-cardSub border border-brand-border px-4 py-1.5 rounded-full text-xs text-brand-neonPink font-semibold tracking-wide">
+                        <i class="fa-solid fa-rocket"></i> SPEED TO MARKET • ROI DRIVEN MARKETING
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-brand-text leading-none">
+                        <span class="block text-brand-text">We Don't Just Build Brands.</span>
+                        <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-accent via-brand-neonPink to-amber-400">We Drive Real Growth.</span>
+                    </h1>
+                    <p class="text-brand-muted text-lg md:text-xl font-normal max-w-2xl mx-auto leading-relaxed">
+                        High-impact Creative, Social-First Marketing, and Speed to Market. Crafted by Onstage Studio.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                        <a href="#contact" onclick="navigateTo('home', 'contact')" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-brand-accent to-brand-accentHover text-white font-bold rounded-lg pulse-glow flex items-center justify-center gap-2 transition-all keep-white">
+                            Get a Free Proposal / 立即獲取增長方案 <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#showcase" onclick="navigateTo('home', 'showcase')" class="w-full sm:w-auto px-8 py-4 bg-brand-card hover:bg-brand-cardSub border border-brand-border text-brand-text font-semibold rounded-lg flex items-center justify-center gap-2 transition-all">
+                            Explore Our Cases / 探索成果
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pain Points Section -->
+            <section id="pain-points" class="py-20 border-b border-brand-border">
+                <div class="max-w-5xl mx-auto">
+                    <div class="text-center space-y-3 mb-12">
+                        <span class="text-xs font-bold text-brand-neonPink uppercase tracking-widest">The Pain Point Trigger</span>
+                        <h2 class="text-3xl font-extrabold text-brand-text">花咗筆直做 Marketing，但係一個 Lead 都帶唔到？</h2>
+                        <p class="text-brand-muted max-w-xl mx-auto">Tired of agencies that only promise "impressions" but deliver zero conversions? Let's fix that.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Pain Card -->
+                        <div class="p-8 rounded-2xl bg-brand-cardSub border border-brand-border hover:border-brand-neonPink/20 transition-all flex flex-col justify-between shadow-sm">
+                            <div class="space-y-4">
+                                <div class="h-10 w-10 rounded-full bg-brand-neonPink/10 text-brand-neonPink flex items-center justify-center text-lg"><i class="fa-solid fa-circle-xmark"></i></div>
+                                <h3 class="text-xl font-bold text-brand-text">傳統 Agency 慢、貴、離地</h3>
+                                <ul class="space-y-2.5 text-sm text-brand-muted">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-ban text-red-500 mt-1"></i> <span>流程拖成個月，完全跟唔上潮流熱點 (Speed to Market 零分)</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-ban text-red-500 mt-1"></i> <span>只講 Beauty Look，唔講點樣轉化成真正流量同銷量</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-ban text-red-500 mt-1"></i> <span>報告得啲實體 Impression，但生意根本冇得升</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Solution Card -->
+                        <div class="p-8 rounded-2xl bg-brand-card border border-brand-border rounded-2xl flex flex-col justify-between shadow-lg">
+                            <div class="space-y-4">
+                                <div class="h-10 w-10 rounded-full bg-brand-accent/20 text-brand-accent flex items-center justify-center text-lg"><i class="fa-solid fa-circle-check"></i></div>
+                                <h3 class="text-xl font-bold text-brand-text flex items-center gap-2">Onstage Studio 效率及轉化增長夥伴</h3>
+                                <ul class="space-y-2.5 text-sm text-brand-text">
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-neonGreen mt-1"></i> <span><b>極速響應：</b> 自家精銳攝製、文案、廣告投放團隊，隨時捕捉潮流熱話</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-neonGreen mt-1"></i> <span><b>ROI 導向：</b> 結合 SEO 同 Meta/Google Ads，精準捕捉具購買意圖嘅客人</span></li>
+                                    <li class="flex items-start gap-2"><i class="fa-solid fa-check text-brand-neonGreen mt-1"></i> <span><b>全渠道霸屏：</b> 既懂香港本土、歐美，又深諳中國主流小紅書、WeChat玩法的雙語人才</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section id="services" class="py-20 border-b border-brand-border">
+                <div class="text-center space-y-3 mb-16">
+                    <span class="text-xs font-bold text-brand-neonGreen uppercase tracking-widest">Our Service Blueprint</span>
+                    <h2 class="text-3xl font-extrabold text-brand-text">唔只係靚，仲要幫你帶嚟轉化嘅專業服務</h2>
+                    <p class="text-brand-muted max-w-xl mx-auto">我們 provide 從品牌概念、跨平台廣告，到快節奏影音攝製的一站式全渠道解決方案。</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <!-- Service 1 -->
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-2xl hover:border-brand-accent/30 transition-all flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div class="w-full h-44 rounded-xl overflow-hidden relative border border-brand-border group-hover:border-brand-accent/40 transition-all">
+                                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="[設計與UIUX] Creative & Brand Design UI" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent opacity-85"></div>
+                                <span class="absolute top-3 left-3 text-[10px] bg-brand-accent/80 backdrop-blur-sm text-white px-2.5 py-1 rounded font-bold uppercase tracking-wider keep-white">UI/UX & Brand Identity</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-text pt-2">Creative & Brand Design</h3>
+                            <p class="text-xs text-brand-neonPink uppercase tracking-widest font-semibold">Design That Sells</p>
+                            <p class="text-sm text-brand-muted leading-relaxed">
+                                全新品牌VI定位、高點擊流暢度 UI/UX 網頁設計，以及 IG/FB 社群一致美感包裝。用視覺提升溢價，極力降低你嘅顧客獲取成本 (CAC)。
+                            </p>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-border flex flex-col gap-3">
+                            <button onclick="navigateTo('creative')" class="w-full text-center py-2.5 bg-brand-accent/15 hover:bg-brand-accent text-white border border-brand-accent/30 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                                查看詳細服務內容與收費 (SEO Subpage) <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-2xl hover:border-brand-neonGreen/30 transition-all flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div class="w-full h-44 rounded-xl overflow-hidden relative border border-brand-border group-hover:border-brand-neonGreen/40 transition-all">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="[數碼營銷] Digital Marketing Dash" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent opacity-85"></div>
+                                <span class="absolute top-3 left-3 text-[10px] bg-brand-neonGreen/80 backdrop-blur-sm text-white px-2.5 py-1 rounded font-bold uppercase tracking-wider keep-white">SEO & Ads Optimization</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-text pt-2">Digital Marketing & SEO</h3>
+                            <p class="text-xs text-brand-neonGreen uppercase tracking-widest font-semibold">Dominate Search, Crush Social</p>
+                            <p class="text-sm text-brand-muted leading-relaxed">
+                                極限優化 ROI 廣告數據（Google/Meta Ads），配合深度關鍵字 SEO 佈局穩居搜尋首頁。更有小紅書 (RED) 與微信一條龍推廣，跨域引流。
+                            </p>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-border flex flex-col gap-3">
+                            <button onclick="navigateTo('marketing')" class="w-full text-center py-2.5 bg-brand-neonGreen/10 hover:bg-brand-neonGreen hover:text-brand-dark text-brand-neonGreen border border-brand-neonGreen/30 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                                查看詳細服務內容與收費 (SEO Subpage) <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="bg-brand-card border border-brand-border p-6 rounded-2xl hover:border-brand-neonPink/30 transition-all flex flex-col justify-between group">
+                        <div class="space-y-4">
+                            <div class="w-full h-44 rounded-xl overflow-hidden relative border border-brand-border group-hover:border-brand-neonPink/40 transition-all">
+                                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80" alt="[影視製作] Camera Video Production" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent opacity-85"></div>
+                                <span class="absolute top-3 left-3 text-[10px] bg-brand-neonPink/80 backdrop-blur-sm text-white px-2.5 py-1 rounded font-bold uppercase tracking-wider keep-white">Professional Shooting</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-brand-text pt-2">Photo & Video Production</h3>
+                            <p class="text-xs text-brand-text uppercase tracking-widest font-semibold text-amber-500">Scroll-Stopping Visuals</p>
+                            <p class="text-sm text-brand-muted leading-relaxed">
+                                自家編導攝製團隊，高速量產 9:16 移動端短影音（IG Reels / TikTok / 小紅書），在網民碌過前 0.5 秒攝住眼球，打動購買慾。
+                            </p>
+                        </div>
+                        <div class="pt-6 mt-6 border-t border-brand-border flex flex-col gap-3">
+                            <button onclick="navigateTo('production')" class="w-full text-center py-2.5 bg-brand-neonPink/10 hover:bg-brand-neonPink text-brand-neonPink border border-brand-neonPink/30 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1">
+                                查看詳細服務內容與收費 (SEO Subpage) <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Showcase Section -->
+            <section id="showcase" class="py-20 border-b border-brand-border">
+                <div class="text-center space-y-3 mb-16">
+                    <span class="text-xs font-bold text-amber-500 uppercase tracking-widest">Case Studies & Success Stories</span>
+                    <h2 class="text-3xl font-extrabold text-brand-text">唔只講 Creative，我哋用真實 ROI 講話</h2>
+                    <p class="text-brand-muted max-w-xl mx-auto">我們絕不只放漂亮照片，更為您呈獻我們如何打通網上獲客漏斗，帶來源源不絕的生意。</p>
+                </div>
+
+                <div class="max-w-5xl mx-auto space-y-16">
+                    <!-- Case Study 1 -->
+                    <div class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden flex flex-col lg:flex-row transition-all hover:border-brand-neonGreen/20 shadow-sm">
+                        <div class="p-8 lg:w-3/5 space-y-6 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-brand-neonGreen/10 text-brand-neonGreen text-[10px] font-bold px-2.5 py-1 rounded border border-brand-neonGreen/20">DIGITAL MARKETING</span>
+                                    <span class="text-xs text-brand-muted font-semibold">CLIENT: LUXE LIVING HK</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-brand-text leading-tight">3個月內：Google Ads + 精準 SEO 策略，突破高檔傢俬業績樽頸</h3>
+                                <p class="text-sm text-brand-muted">
+                                    通過重新架構「高購買意圖」關鍵字庫，我們將高成本的競價廣告精準投放到具成交潛力的奢華裝修人群；配合客製化 WordPress Landing Page 高轉換設計，打破對手壟斷。
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 bg-brand-cardSub p-4 rounded-xl border border-brand-border">
+                                    <div>
+                                        <span class="text-[10px] text-brand-muted uppercase block tracking-wider font-semibold">Inbound Inquiries</span>
+                                        <span class="text-2xl font-black text-brand-neonGreen">+140%</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] text-brand-muted uppercase block tracking-wider font-semibold">Cost Per Lead (CPL)</span>
+                                        <span class="text-2xl font-black text-brand-neonGreen">-38%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <button onclick="navigateTo('case-luxe')" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-neonGreen/20 to-brand-neonGreen/10 border border-brand-neonGreen/30 hover:border-brand-neonGreen text-brand-text text-xs font-bold rounded-lg transition-all">
+                                    Explore Strategy / 閱讀完整操作細節 (SEO Hub) <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/5 bg-brand-cardSub p-6 flex flex-col justify-center items-center border-t lg:border-t-0 lg:border-l border-brand-border relative">
+                            <div class="w-full max-w-[340px] bg-brand-dark rounded-t-xl border border-brand-border shadow-2xl overflow-hidden animate-fade-in">
+                                <div class="bg-brand-cardSub px-4 py-2 flex items-center justify-between border-b border-brand-border">
+                                    <div class="flex gap-1.5">
+                                        <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                                        <div class="w-2.5 h-2.5 rounded-full bg-amber-500/80"></div>
+                                        <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                                    </div>
+                                    <div class="bg-brand-dark px-3 py-0.5 rounded text-[8px] text-brand-muted w-32 text-center truncate font-mono">luxeliving.com.hk</div>
+                                    <div class="w-4"></div>
+                                </div>
+                                <div class="p-4 space-y-3 bg-brand-card">
+                                    <div class="h-32 rounded overflow-hidden relative border border-brand-border">
+                                        <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80" alt="[傢俬案例室內相] Luxe Living Living Room Setup" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-2">
+                                            <span class="text-[7px] text-brand-accent font-semibold tracking-wider font-mono keep-white">GOOGLE SEARCH RANKING #1</span>
+                                            <p class="text-[9px] text-white font-bold keep-white">訂造奢華傢俬 • Luxe Living</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-brand-cardSub p-2.5 rounded border border-brand-border space-y-1.5">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-[8px] text-brand-muted font-bold">Google Ads Performance</span>
+                                            <span class="text-[8px] text-brand-neonGreen bg-brand-neonGreen/10 px-1 rounded font-bold">+140% Conversions</span>
+                                        </div>
+                                        <div class="h-8 flex items-end gap-1 pt-1">
+                                            <div class="w-1/12 h-2 bg-slate-400"></div>
+                                            <div class="w-1/12 h-3 bg-slate-400"></div>
+                                            <div class="w-1/12 h-5 bg-brand-accent/50"></div>
+                                            <div class="w-1/12 h-8 bg-brand-neonGreen"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Case Study 2 -->
+                    <div class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden flex flex-col lg:flex-row transition-all hover:border-brand-neonPink/20 shadow-sm">
+                        <div class="p-8 lg:w-3/5 space-y-6 flex flex-col justify-between">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="bg-brand-neonPink/10 text-brand-neonPink text-[10px] font-bold px-2.5 py-1 rounded border border-brand-neonPink/20">CREATIVE & SOCIAL</span>
+                                    <span class="text-xs text-brand-muted font-semibold">CLIENT: REDEFINE SKINCARE</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-brand-text leading-tight">小紅書 + IG Reels 雙引擎，零廣告預算攻陷年輕精緻客群</h3>
+                                <p class="text-sm text-brand-muted">
+                                    擺脫公式化硬廣！我們針對年輕女性皮膚痛點，策劃「真實素顏30天不修圖極端實測」短片，在小紅書平台創造百萬曝光，再以 IG Shop / 微信私域實現爆數轉換閉環。
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 bg-brand-cardSub p-4 rounded-xl border border-brand-border">
+                                    <div>
+                                        <span class="text-[10px] text-brand-muted uppercase block tracking-wider font-semibold">Organic RED/Reels Views</span>
+                                        <span class="text-2xl font-black text-brand-neonPink">1.2M+</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] text-brand-muted uppercase block tracking-wider font-semibold">Direct Shop Sales Growth</span>
+                                        <span class="text-2xl font-black text-brand-neonPink">+285%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <button onclick="navigateTo('case-redefine')" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-neonPink/20 to-brand-neonPink/10 border border-brand-neonPink/30 hover:border-brand-neonPink text-brand-text text-xs font-bold rounded-lg transition-all">
+                                    Explore Strategy / 閱讀完整操作細節 (SEO Hub) <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="lg:w-2/5 bg-brand-cardSub p-6 flex flex-col justify-center items-center border-t lg:border-t-0 lg:border-l border-brand-border relative">
+                            <!-- iPhone Shell -->
+                            <div class="w-[200px] h-[360px] bg-black rounded-[32px] border-[4px] border-slate-850 shadow-2xl relative overflow-hidden flex flex-col justify-between">
+                                <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-30 flex items-center justify-center"></div>
+                                <div class="bg-black/40 h-8 px-4 flex items-center justify-between text-[7px] text-slate-400 font-mono z-20 pt-2">
+                                    <span>9:41</span>
+                                    <div class="flex gap-1 items-center">
+                                        <i class="fa-solid fa-wifi"></i>
+                                        <i class="fa-solid fa-battery-three-quarters"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow flex flex-col justify-between p-2.5 relative">
+                                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=600&q=80" alt="[小紅書護膚品] Skincare Drop Serum Review Video" class="absolute inset-0 w-full h-full object-cover filter brightness-[0.85]">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50 z-0"></div>
+                                    <div class="w-full flex items-center justify-between z-10 pt-1 text-white">
+                                        <i class="fa-solid fa-chevron-left text-[9px] opacity-80"></i>
+                                        <div class="flex items-center gap-1.5 text-[8px] font-bold">
+                                            <span class="text-slate-300">關注</span>
+                                            <span class="text-white border-b-2 border-[#ff2442] pb-0.5">推薦</span>
+                                            <span class="text-slate-300">香港</span>
+                                        </div>
+                                        <i class="fa-solid fa-magnifying-glass text-[9px] opacity-80"></i>
+                                    </div>
+                                    <div></div>
+                                    <div class="flex justify-between items-end z-10 pb-1">
+                                        <div class="space-y-1 max-w-[125px]">
+                                            <div class="flex items-center gap-1">
+                                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="KOL Portrait" class="w-4 h-4 rounded-full border border-white/80 object-cover">
+                                                <span class="text-[8px] font-bold text-white">@素顏救星阿Kay 👑</span>
+                                            </div>
+                                            <p class="text-[7px] text-slate-100 leading-relaxed font-normal text-ellipsis overflow-hidden line-clamp-2">
+                                                親測30天！✨ 呢支 REDefine 補水精華真係毛孔收縮神器...
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-20 border-b border-brand-border">
+                <div class="max-w-4xl mx-auto space-y-12">
+                    <div class="text-center space-y-3">
+                        <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Our Vision & Agency DNA</span>
+                        <h2 class="text-3xl font-extrabold text-brand-text">我們不是外判服務商，我們是你的 Growth Partner</h2>
+                    </div>
+
+                    <div class="bg-brand-card border border-brand-border rounded-2xl p-8 space-y-6 relative overflow-hidden shadow-sm">
+                        <div class="text-2xl text-amber-400"><i class="fa-solid fa-quote-left"></i></div>
+                        <h3 class="text-xl md:text-2xl font-extrabold italic text-brand-text">"The Speed of the Market dictates the Speed of Growth."</h3>
+                        <p class="text-brand-muted leading-relaxed text-sm md:text-base">
+                            「喺網絡世界，潮流快到24小時就變一個樣。等得傳統 Agency 開完會、定完 Project Plan、再經多層審批拍板，個 Trend 已經一早過去。我哋相信 Agility（敏捷性）同 Speed to Market。快速反應、快速製作、精準投放、實時調整 —— 這就是我們如何令客戶在市場中勝出的秘訣。」
+                        </p>
+                    </div>
+
+                    <!-- BTS Photos Grid -->
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-neonPink uppercase tracking-widest flex items-center gap-1.5"><i class="fa-solid fa-camera-retro"></i> Team & BTS Photo Grid</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="h-44 rounded-xl relative group overflow-hidden border border-brand-border shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80" alt="[拍攝現場] Camera Shooting Scene Setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                                <div class="absolute bottom-3 left-3">
+                                    <p class="text-xs font-bold text-white"><i class="fa-solid fa-clapperboard text-brand-accent mr-1"></i> Video Shooting</p>
+                                </div>
+                            </div>
+                            <div class="h-44 rounded-xl relative group overflow-hidden border border-brand-border shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="[策略會議] Team Brainstorming Strategy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                                <div class="absolute bottom-3 left-3">
+                                    <p class="text-xs font-bold text-white"><i class="fa-solid fa-compass-drafting text-brand-neonGreen mr-1"></i> Content Strategy</p>
+                                </div>
+                            </div>
+                            <div class="h-44 rounded-xl relative group overflow-hidden border border-brand-border shadow-sm">
+                                <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=600&q=80" alt="[影音直播] Podcast Broadcast Studio Setup" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                                <div class="absolute bottom-3 left-3">
+                                    <p class="text-xs font-bold text-white"><i class="fa-solid fa-microphone-lines text-brand-neonPink mr-1"></i> Audio & Streaming</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact/Briefing Section -->
+            <section id="contact" class="py-20">
+                <div class="text-center space-y-3 mb-12">
+                    <span class="text-xs font-bold text-rose-500 uppercase tracking-widest">Connect & Scale Up</span>
+                    <h2 class="text-3xl font-extrabold text-brand-text">今日起，開啟你嘅品牌增長之路</h2>
+                    <p class="text-brand-muted max-w-xl mx-auto text-sm">填寫簡單 Briefing 卡片，我們會在24小時內提供免費的 15 分鐘品牌初步審查與建議報告！</p>
+                </div>
+
+                <div class="max-w-3xl mx-auto">
+                    <form onsubmit="event.preventDefault(); document.getElementById('success-banner').classList.remove('hidden');" class="bg-brand-card border border-brand-border rounded-2xl p-8 space-y-6 shadow-xl">
+                        <div class="space-y-3">
+                            <label class="text-sm font-bold text-brand-text block">1. 我目前最需要解決的問題是： (可多選)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <label class="flex items-center gap-3 p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent transition-all">
+                                    <input type="checkbox" class="accent-brand-accent h-4 w-4">
+                                    <span class="text-xs text-brand-text">提升網站自然流量 (SEO)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent transition-all">
+                                    <input type="checkbox" class="accent-brand-accent h-4 w-4">
+                                    <span class="text-xs text-brand-text">提升廣告轉換與網店Sales (Paid Ads)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent transition-all">
+                                    <input type="checkbox" class="accent-brand-accent h-4 w-4">
+                                    <span class="text-xs text-brand-text">品牌VI重塑與UI/UX網頁設計</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent transition-all">
+                                    <input type="checkbox" class="accent-brand-accent h-4 w-4">
+                                    <span class="text-xs text-brand-text">製作高質感短視頻/商業宣傳片</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="text-sm font-bold text-brand-text block">2. 我的預算範圍大概是：</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label class="p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent text-center block transition-all">
+                                    <input type="radio" name="budget" class="hidden">
+                                    <span class="text-xs text-brand-text block">HK$ 20k - 50k</span>
+                                </label>
+                                <label class="p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent text-center block transition-all">
+                                    <input type="radio" name="budget" class="hidden">
+                                    <span class="text-xs text-brand-text block">HK$ 50k - 100k</span>
+                                </label>
+                                <label class="p-3 bg-brand-cardSub border border-brand-border rounded-lg cursor-pointer hover:border-brand-accent text-center block transition-all">
+                                    <input type="radio" name="budget" class="hidden">
+                                    <span class="text-xs text-brand-text block">HK$ 100k+</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-brand-muted">閣下姓名 / 公司名稱</label>
+                                <input type="text" class="w-full bg-brand-cardSub border border-brand-border rounded-lg p-2.5 text-xs text-brand-text focus:outline-none focus:border-brand-accent" placeholder="e.g. Alex Luk" required>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-brand-muted">聯絡電郵 / WhatsApp</label>
+                                <input type="text" class="w-full bg-brand-cardSub border border-brand-border rounded-lg p-2.5 text-xs text-brand-text focus:outline-none focus:border-brand-accent" placeholder="e.g. alex@luxeliving.com" required>
+                            </div>
+                        </div>
+
+                        <div id="success-banner" class="hidden p-4 bg-brand-neonGreen/10 border border-brand-neonGreen/30 rounded-lg text-xs text-brand-neonGreen text-center font-bold">
+                            <i class="fa-solid fa-circle-check"></i> 我們已成功收到你的意向卡片！Onstage 會在 24 小時內聯絡你！
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-accent to-brand-accentHover text-white text-xs font-bold uppercase tracking-widest rounded-lg shadow-lg hover:shadow-brand-accent/20 transition-all flex items-center justify-center gap-2 keep-white">
+                            Submit Request & Audit <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </section>
+        </main>
+
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted space-y-3">
+            <div class="flex items-center justify-center gap-6">
+                <span class="hover:text-brand-text transition-all cursor-pointer">About Us</span>
+                <span>•</span>
+                <span class="hover:text-brand-text transition-all cursor-pointer">Success Stories</span>
+                <span>•</span>
+                <span class="hover:text-brand-text transition-all cursor-pointer">Privacy Policy</span>
+            </div>
+            <p>© 2026 Onstage Studio. Premium High-Growth Marketing Agency.</p>
+        </footer>
+    </div>
+
+    <!-- ================= PAGE 2: CREATIVE & BRAND DESIGN SUBPAGE ================= -->
+    <div id="page-creative" class="hidden page-fade-in py-12">
+        <main class="max-w-5xl mx-auto px-4 md:px-8 space-y-16">
+            <!-- Back button & Nav header -->
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('home')" class="text-xs font-bold bg-brand-cardSub hover:bg-brand-card border border-brand-border text-brand-text px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> 返回主頁 Back to Home
+                </button>
+                <span class="text-xs text-brand-muted font-mono">ONSTAGE / SERVICES / BRANDING & DESIGN</span>
+            </div>
+
+            <!-- Subpage Hero Banner -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-brand-neonPink/10 text-brand-neonPink border border-brand-neonPink/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Design that sells</span>
+                    <h1 class="text-3xl md:text-5xl font-black text-brand-text leading-tight font-bold">不只追求極致美學，更能降低 40% 獲客成本的品牌視覺設計。</h1>
+                    <p class="text-brand-muted text-sm md:text-base leading-relaxed">
+                        用國際化的設計語言，將你嘅產品包裝成行業龍頭。由流暢高點擊率嘅 UI/UX 網頁，到社群美感一致嘅包裝，打造過目不忘嘅品牌辨識度與高轉換率。
+                    </p>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80" alt="[UIUX設計師] UI Design Process on iPad" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-85"></div>
+                    <span class="absolute bottom-4 left-4 bg-brand-accent/80 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold font-mono shadow-sm keep-white">Figma Layout Concept</span>
+                </div>
+            </section>
+
+            <!-- Deliverables Service Details Grid -->
+            <section class="space-y-8">
+                <h2 class="text-2xl font-bold text-brand-text text-center">4大核心設計交付物範疇 (Core Deliverables)</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-3 hover:border-brand-accent/30 transition-all shadow-sm">
+                        <i class="fa-solid fa-compass-drafting text-2xl text-brand-neonPink"></i>
+                        <h3 class="text-lg font-bold text-brand-text">01/ VI 品牌識別定位與設計</h3>
+                        <p class="text-xs text-brand-muted">
+                            確立品牌故事、LOGO 標誌、規範字體、主色調及次色調配搭，產出完整的 **Brand Guidelines (品牌視覺指引)**。
+                        </p>
+                    </div>
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-3 hover:border-brand-accent/30 transition-all shadow-sm">
+                        <i class="fa-solid fa-mobile-screen-button text-2xl text-brand-accent"></i>
+                        <h3 class="text-lg font-bold text-brand-text">02/ UX/UI 網頁及 App 高轉化介面</h3>
+                        <p class="text-xs text-brand-muted">
+                            網頁排版、流暢動效（Micro-interactions）與按鈕（CTA）定位優化，確保用戶在網站上有最佳體驗，從而大大提升網店成交率。
+                        </p>
+                    </div>
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-3 hover:border-brand-accent/30 transition-all shadow-sm">
+                        <i class="fa-solid fa-border-all text-2xl text-amber-400"></i>
+                        <h3 class="text-lg font-bold text-brand-text">03/ IG Grid 社群視覺模板九格圖</h3>
+                        <p class="text-xs text-brand-muted">
+                            幫你訂製 IG 九格圖模板，等你的小編可以直接套用，在保持高更新頻率的同時，依然能維護品牌整體的高端視覺美感。
+                        </p>
+                    </div>
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-3 hover:border-brand-accent/30 transition-all shadow-sm">
+                        <i class="fa-solid fa-box-open text-2xl text-brand-neonGreen"></i>
+                        <h3 class="text-lg font-bold text-brand-text">04/ 實體包裝 & 印刷周邊 (Branding Collateral)</h3>
+                        <p class="text-xs text-brand-muted">
+                            產品外包裝盒、名片、宣傳單張、開箱禮卡等設計，將品牌美學完美由網上（Online）延伸至線下實體觸覺（Offline）。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Section -->
+            <section class="space-y-8 bg-brand-card/40 p-8 rounded-2xl border border-brand-border shadow-sm">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-brand-text">透明彈性服務報價單 (Pricing Plans)</h2>
+                    <p class="text-xs text-brand-muted">所有方案皆可按需進行定制化組合</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Pricing Column 1 -->
+                    <div class="bg-brand-card p-6 rounded-xl border border-brand-border flex flex-col justify-between shadow-sm">
+                        <div class="space-y-4">
+                            <span class="text-xs text-brand-muted block uppercase font-semibold">Startup Pack</span>
+                            <span class="text-2xl font-extrabold text-brand-text font-bold">HK$ 15,000+</span>
+                            <p class="text-xs text-brand-muted">適合初創、極速落地</p>
+                            <ul class="text-xs text-brand-text space-y-2 pt-2 border-t border-brand-border">
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5 animate-pulse"></i> Logo 主標識設計</li>
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5 animate-pulse"></i> 標準字體及配色手冊</li>
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5 animate-pulse"></i> IG 首頁9款社群模板包</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('home', 'contact')" class="w-full py-2 bg-brand-cardSub text-brand-text text-xs font-bold rounded mt-6 hover:bg-slate-850">Get Started</button>
+                    </div>
+                    <!-- Pricing Column 2 -->
+                    <div class="bg-brand-card p-6 rounded-xl border-2 border-brand-accent flex flex-col justify-between relative shadow-md">
+                        <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-accent text-white font-bold text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-mono shadow-sm keep-white">Most Popular</span>
+                        <div class="space-y-4">
+                            <span class="text-xs text-brand-accent block uppercase font-bold">Growth Web Pack</span>
+                            <span class="text-2xl font-extrabold text-brand-text font-bold">HK$ 38,000+</span>
+                            <p class="text-xs text-brand-muted">適合成長型品牌、提升溢價</p>
+                            <ul class="text-xs text-brand-text space-y-2 pt-2 border-t border-brand-border">
+                                <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 全套 VI 品牌指引 (包含 Mockups)</li>
+                                <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 響應式 UI/UX 網頁頁面設計 (Figma)</li>
+                                <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 交互動效規範與開發對接</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('home', 'contact')" class="w-full py-2.5 bg-brand-accent text-white text-xs font-bold rounded mt-6 hover:bg-brand-accentHover shadow-sm keep-white">Request Proposal</button>
+                    </div>
+                    <!-- Pricing Column 3 -->
+                    <div class="bg-brand-card p-6 rounded-xl border border-brand-border flex flex-col justify-between shadow-sm">
+                        <div class="space-y-4">
+                            <span class="text-xs text-brand-muted block uppercase font-semibold">Enterprise Custom</span>
+                            <span class="text-2xl font-extrabold text-brand-text font-bold">Custom / POA</span>
+                            <p class="text-xs text-brand-muted">適合大型企業定制、全案統包</p>
+                            <ul class="text-xs text-brand-text space-y-2 pt-2 border-t border-brand-border">
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 1對1 Creative Director 諮詢服務</li>
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 品牌專屬字體及多維度插畫定制</li>
+                                <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 全年行銷排版視覺顧問</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('home', 'contact')" class="w-full py-2 bg-brand-cardSub text-brand-text text-xs font-bold rounded mt-6 hover:bg-slate-800">Contact Us</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Action CTA -->
+            <div class="text-center py-6">
+                <button onclick="navigateTo('home', 'contact')" class="px-8 py-3 bg-brand-neonPink text-white font-bold rounded-lg hover:bg-pink-600 transition-all text-sm shadow-md keep-white">
+                    立即獲取 Onstage 品牌設計增長方案 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted mt-20">
+            <p>© 2026 Onstage Studio. Creative Service Subpage Preview.</p>
+        </footer>
+    </div>
+
+    <!-- ================= PAGE 3: DIGITAL MARKETING & SEO SUBPAGE ================= -->
+    <div id="page-marketing" class="hidden page-fade-in py-12">
+        <main class="max-w-5xl mx-auto px-4 md:px-8 space-y-16">
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('home')" class="text-xs font-bold bg-brand-cardSub hover:bg-brand-card border border-brand-border text-brand-text px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> 返回主頁 Back to Home
+                </button>
+                <span class="text-xs text-brand-muted font-mono">ONSTAGE / SERVICES / DIGITAL MARKETING</span>
+            </div>
+
+            <!-- Hero Banner -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-brand-neonGreen/10 text-brand-neonGreen border border-brand-neonGreen/20 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Crush Conversions</span>
+                    <h1 class="text-3xl md:text-5xl font-black text-brand-text leading-tight font-bold">停止盲目燒錢！精準捕捉具購買意圖客群的全渠道爆數漏斗。</h1>
+                    <p class="text-brand-muted text-sm md:text-base leading-relaxed">
+                        整合高權重 SEO、Meta/Google 競價廣告優化，與內地小紅書霸屏引流。我們不講視覺上的曝光，一律只看實際 Leads 轉化率與獲客成本（CAC）。
+                    </p>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="[營銷數據面板] Marketing Data Analytics dashboard" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-85"></div>
+                    <span class="absolute bottom-4 left-4 bg-brand-neonGreen/80 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold font-mono shadow-sm keep-white">ROI Growth Engine v2.0</span>
+                </div>
+            </section>
+
+            <!-- SEO & Ads Strategy Pillars -->
+            <section class="space-y-8">
+                <h2 class="text-2xl font-bold text-brand-text text-center">3大獲客漏斗核心戰術 (Conversion Funnel Blueprint)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/30 transition-all shadow-sm">
+                        <div class="h-10 w-10 bg-brand-neonGreen/10 text-brand-neonGreen rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h3 class="text-lg font-bold text-brand-text">01/ 高權重 SEO 關鍵字卡位</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            專門篩選「高成交意向（Purchase Intent）」的長尾關鍵字，通過高品質內容優化，穩居 Google 搜尋首頁，每天帶來免費被動自然流量。
+                        </p>
+                    </div>
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/30 transition-all shadow-sm">
+                        <div class="h-10 w-10 bg-brand-accent/10 text-brand-accent rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-chart-line"></i></div>
+                        <h3 class="text-lg font-bold text-brand-text">02/ Meta & Google Ads 數據優化</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            擁有管理數百萬預算的廣告投放經驗。透過 A/B 測試排除低轉化受眾，精準卡位優質精準流量，每週更新黑名單，決不浪費一分預算。
+                        </p>
+                    </div>
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/30 transition-all shadow-sm">
+                        <div class="h-10 w-10 bg-brand-neonPink/10 text-brand-neonPink rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-users-gear"></i></div>
+                        <h3 class="text-lg font-bold text-brand-text">03/ 小紅書 (RED) 與微信私域引流</h3>
+                        <p class="text-xs text-brand-muted leading-relaxed">
+                            全港最地道的內地主流平台運營經驗。針對新移民、內地遊客以及精緻女性用戶群體，撰寫原生爆款小紅書種草筆記，極速裂變引流。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing / ROI Setup Block -->
+            <section class="space-y-8 bg-brand-card/40 p-8 rounded-2xl border border-brand-border shadow-sm">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-brand-text">數據營銷代運營方案 (Monthly Retainer)</h2>
+                    <p class="text-xs text-brand-muted">透明每週回報，重視實際 Lead 增長率</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Column 1 -->
+                    <div class="bg-brand-card p-8 rounded-xl border border-brand-border space-y-6 shadow-sm">
+                        <div>
+                            <span class="text-xs text-brand-neonGreen font-bold uppercase tracking-wider">SEO & Local Map Domination</span>
+                            <span class="text-3xl font-extrabold text-brand-text block mt-1 font-bold">HK$ 12,000/mo</span>
+                            <p class="text-xs text-brand-muted mt-1">專注卡位 Google 搜尋首頁</p>
+                        </div>
+                        <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 核心及長尾關鍵字深度挖掘與佈局</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 5篇 1000+ 字 SEO 結構優化文章</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> Google My Business 地圖排名優化</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 每月專業 Google Search Console 分析報告</li>
+                        </ul>
+                    </div>
+                    <!-- Column 2 -->
+                    <div class="bg-brand-card p-8 rounded-xl border-2 border-brand-accent space-y-6 relative shadow-md">
+                        <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-accent text-white font-bold text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-mono shadow-sm keep-white">Complete Funnel</span>
+                        <div>
+                            <span class="text-xs text-brand-accent font-bold uppercase tracking-wider">Omni-Channel Traffic & Ads Retainer</span>
+                            <span class="text-3xl font-extrabold text-brand-text block mt-1 font-bold">HK$ 25,000/mo</span>
+                            <p class="text-xs text-brand-muted mt-1">全方位廣告代營運 + 漏斗搭建</p>
+                        </div>
+                        <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> Google Search + Meta (FB/IG) 廣告架設</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 每週 A/B Testing 廣告素材素材文案優化</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 精準 Remarketing 重定向再營銷</li>
+                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 小紅書種草 + 微信私域運營一條龍</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Action CTA -->
+            <div class="text-center py-6">
+                <button onclick="navigateTo('home', 'contact')" class="px-8 py-3 bg-brand-neonGreen text-brand-dark font-bold rounded-lg hover:bg-emerald-500 transition-all text-sm shadow-md keep-white">
+                    立即聯絡 Onstage 增長夥伴獲取免費 SEO 諮詢 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted mt-20">
+            <p>© 2026 Onstage Studio. Digital Marketing Subpage Preview.</p>
+        </footer>
+    </div>
+
+    <!-- ================= PAGE 4: PHOTO & VIDEO PRODUCTION SUBPAGE ================= -->
+    <div id="page-production" class="hidden page-fade-in py-12">
+        <main class="max-w-5xl mx-auto px-4 md:px-8 space-y-16">
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('home')" class="text-xs font-bold bg-brand-cardSub hover:bg-brand-card border border-brand-border text-brand-text px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> 返回主頁 Back to Home
+                </button>
+                <span class="text-xs text-brand-muted font-mono">ONSTAGE / SERVICES / VIDEO PRODUCTION</span>
+            </div>
+
+            <!-- Hero Banner -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="bg-brand-neonPink/10 text-brand-neonPink border border-brand-neonPink/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Scroll-stopping visuals</span>
+                    <h1 class="text-3xl md:text-5xl font-black text-brand-text leading-tight font-bold">在 0.5 秒內網民碌過前，幫你攝住佢哋眼球嘅短視頻。</h1>
+                    <p class="text-brand-muted text-sm md:text-base leading-relaxed">
+                        自家編導與製片團隊，高效率批量製作 9:16 移動端快節奏短影音（IG Reels / 小紅書 / TikTok / 網店產品展示片）。我們既懂大片美感，更懂如何刺激觀看完成率與轉化。
+                    </p>
+                </div>
+                <div class="relative rounded-2xl overflow-hidden border border-brand-border h-80 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80" alt="[4K電影機拍攝] Pro Cinema Camera" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-85"></div>
+                    <span class="absolute bottom-4 left-4 bg-brand-neonPink/80 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold font-mono shadow-sm keep-white">Pro Camera & Lighting Rig</span>
+                </div>
+            </section>
+
+            <!-- Production Pipeline -->
+            <section class="space-y-8">
+                <h2 class="text-2xl font-bold text-brand-text text-center">3大高效攝製工作流 (Production SOP)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-3.5 shadow-sm">
+                        <span class="h-8 w-8 bg-brand-accent/20 text-brand-accent rounded-full flex items-center justify-center font-bold font-mono text-sm">01</span>
+                        <h3 class="text-lg font-bold text-brand-text">Creative Scripting / 爆款腳本</h3>
+                        <p class="text-xs text-brand-muted">
+                            絕不盲目拍攝！結合當季大熱 IG BGM、社交平台對話模式以及用戶痛點，由專業文案在 3 天內產出高吸引力腳本與分鏡（Storyboard）。
+                        </p>
+                    </div>
+                    <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-3.5 shadow-sm">
+                        <span class="h-8 w-8 bg-brand-neonGreen/20 text-brand-neonGreen rounded-full flex items-center justify-center font-bold font-mono text-sm">02</span>
+                        <h3 class="text-lg font-bold text-brand-text">Production / 電影級器材實拍</h3>
+                        <p class="text-xs text-brand-muted">
+                            專業現場燈光配置及 4K Cine 級電影級鏡頭捕捉。由燈光、收音到化妝全套配備，確保不論是人物訪談或產品微距滴管實拍，均顯露出頂級大廠氛圍。
+                        </p>
+                    </div>
+                    <div class="bg-brand-card p-6 rounded-xl border border-brand-border space-y-3.5 shadow-sm">
+                        <span class="h-8 w-8 bg-brand-neonPink/20 text-brand-neonPink rounded-full flex items-center justify-center font-bold font-mono text-sm">03</span>
+                        <h3 class="text-lg font-bold text-brand-text">Post-Editing / 社交向卡點剪接</h3>
+                        <p class="text-xs text-brand-muted">
+                            節奏感極強的卡點剪接、調色（Color Grading）及標誌性動態字幕（Motion Graphics），在頭 3 秒瞬間捉住觀看者，提高短視頻平台的演算法推薦機率。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing matrix -->
+            <section class="space-y-8 bg-brand-card/40 p-8 rounded-2xl border border-brand-border shadow-sm">
+                <div class="text-center">
+                    <h2 class="text-2xl font-bold text-brand-text">短影音/宣傳片裝備及方案</h2>
+                    <p class="text-xs text-brand-muted">標準化合約，保證極速回片與高品質產出</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Retainer Column 1 -->
+                    <div class="bg-brand-card p-8 rounded-xl border border-brand-border space-y-6 shadow-sm">
+                        <div>
+                            <span class="text-xs text-amber-500 font-bold uppercase tracking-wider">Social Reels Batch</span>
+                            <span class="text-3xl font-extrabold text-brand-text block mt-1 font-bold">HK$ 18,000/mo</span>
+                            <p class="text-xs text-brand-muted mt-1">小編與品牌社群爆粉首選</p>
+                        </div>
+                        <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 每月 6 條 9:16 短片 (IG Reels / 小紅書 / TikTok)</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 包含寫劇本、配樂、卡點後期剪輯</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 包含單日棚內 / 實景高清快速拍攝</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 提供適合小編套用嘅 3 款副標題模板</li>
+                        </ul>
+                    </div>
+                    <!-- Retainer Column 2 -->
+                    <div class="bg-brand-card p-8 rounded-xl border-2 border-brand-accent space-y-6 shadow-md">
+                        <div>
+                            <span class="text-xs text-brand-accent font-bold uppercase tracking-wider">Corporate / Brand Promo Video</span>
+                            <span class="text-3xl font-extrabold text-brand-text block mt-1 font-bold">HK$ 35,000/POA</span>
+                            <p class="text-xs text-brand-muted mt-1">網頁 Banner 與商業簡報大片</p>
+                        </div>
+                        <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 1 條 1-2 分鐘頂級質感商業宣傳大片 (16:9)</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 完整電影級雙相機（B-roll）多機位現場調光</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 包含中英雙語地道配音與背景正版配樂</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 免費交付 3 款不同尺寸（16:9 & 9:16）的廣告切片</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Action CTA -->
+            <div class="text-center py-6">
+                <button onclick="navigateTo('home', 'contact')" class="px-8 py-3 bg-brand-neonPink text-white font-bold rounded-lg hover:bg-pink-600 transition-all text-sm shadow-md keep-white">
+                    預約 Onstage 導演團隊開會 / 立即獲取分鏡提案 <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted mt-20">
+            <p>© 2026 Onstage Studio. Photo & Video Production Subpage Preview.</p>
+        </footer>
+    </div>
+
+    <!-- ================= PAGE 5: LUXE LIVING HK CASE STUDY SUBPAGE ================= -->
+    <div id="page-case-luxe" class="hidden page-fade-in py-12">
+        <main class="max-w-4xl mx-auto px-4 md:px-8 space-y-12">
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('home')" class="text-xs font-bold bg-brand-cardSub hover:bg-brand-card border border-brand-border text-brand-text px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> 返回主頁 Back to Home
+                </button>
+                <span class="text-xs text-brand-muted font-mono">ONSTAGE / CASE STUDIES / LUXE LIVING</span>
+            </div>
+
+            <!-- Title Header -->
+            <div class="space-y-4 text-center md:text-left">
+                <span class="text-xs text-brand-neonGreen font-bold tracking-widest uppercase">CASE STUDY REVOLUTION</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-text leading-tight font-bold">破局而生！Luxe Living HK 如何在 3 個月內將客單價提升 40% 的 SEO & Google Ads 實操戰術</h1>
+                <div class="flex flex-wrap gap-4 pt-2 text-xs text-brand-muted justify-center md:justify-start">
+                    <span><i class="fa-solid fa-calendar mr-1.5"></i> Project Length: 3 Months</span>
+                    <span>•</span>
+                    <span><i class="fa-solid fa-wallet mr-1.5"></i> Ad Spend Optimized</span>
+                    <span>•</span>
+                    <span><i class="fa-solid fa-globe mr-1.5"></i> Custom WordPress Built</span>
+                </div>
+            </div>
+
+            <!-- Big Asset Showcase Hero (Luxe Living Interior) -->
+            <div class="w-full h-80 rounded-2xl overflow-hidden relative border border-brand-border shadow-md">
+                <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80" alt="[奢華傢俬案例] Luxe Living Interior Design Project Show" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                <div class="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <p class="text-xs text-brand-neonGreen font-bold font-mono">GOAL DELIVERED:</p>
+                        <h4 class="text-lg font-bold text-white keep-white">高檔西貢豪宅/港島中產訂造傢俬首位卡位戰</h4>
+                    </div>
+                    <span class="bg-brand-neonGreen text-brand-dark font-extrabold text-xs px-4 py-2 rounded shadow-lg">Inquiries Raised +140%</span>
+                </div>
+            </div>
+
+            <!-- Problem vs Strategy Storytelling -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
+                    <span class="text-xs text-red-500 font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-exclaim"></i> The Problem (行業痛點)</span>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        Luxe Living 雖然做高檔訂製傢俬，但以往廣告公司只幫他們落「買傢俬」、「室內設計」這種競爭極大的大詞。每一次 Click 要花費近 HK$60，但來的客都是找「便宜淘寶風裝修」的無效流量，花了大筆預算，卻連一單奢華訂單都沒有成交。
+                    </p>
+                </div>
+                <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
+                    <span class="text-xs text-brand-neonGreen font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-check"></i> Onstage Strategy (逆轉戰術)</span>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        我們摒棄無效競價大詞。專攻 **「西貢訂製真皮沙發」、「淺水灣豪宅裝修傢俬」** 這種極具精準消費力的長尾字。同時重新為他們設計了一個充滿「極簡奢華美感」的 WordPress 單頁 Landing Page，並設計了「預約一對一設計師諮詢」的互動預約漏斗。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Deep Metric Breakthroughs -->
+            <section class="space-y-6">
+                <h3 class="text-lg font-bold text-brand-text">突破性的增長實績 (Growth Metrics)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">CPL (獲客成本)</span>
+                        <span class="text-3xl font-black text-brand-neonGreen block mt-1">-38% Reduction</span>
+                    </div>
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">自然 SEO 詞量</span>
+                        <span class="text-3xl font-black text-brand-neonGreen block mt-1">Top 3 Rank (28 keywords)</span>
+                    </div>
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">成交轉換率 (CR)</span>
+                        <span class="text-3xl font-black text-brand-neonGreen block mt-1">+4.2% Growth</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Takeaway lesson -->
+            <div class="p-6 bg-brand-cardSub border border-brand-border rounded-xl space-y-2">
+                <h4 class="text-xs font-bold text-brand-text">Creative Director's Insight:</h4>
+                <p class="text-xs text-brand-muted leading-relaxed">
+                    「當你賣的是高單價（High Ticket）產品或服務時，盲目追求曝光量（Impression）完全是浪費金錢。唯有精準鎖定具有『強烈購買意願』的長尾詞，配合流暢的極高端 WordPress UI 信任包裝，才能為客戶打入豪宅消費市場。」
+                </p>
+            </div>
+
+            <!-- Back CTA -->
+            <div class="text-center">
+                <button onclick="navigateTo('home', 'contact')" class="px-8 py-3 bg-brand-accent text-white font-bold rounded-lg hover:bg-brand-accentHover transition-all text-xs shadow-sm keep-white">
+                    複製 Luxe Living 增長奇蹟 / 預約免費網站診斷 <i class="fa-solid fa-arrow-trend-up ml-1"></i>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted mt-20">
+            <p>© 2026 Onstage Studio. Luxe Living Case Subpage Preview.</p>
+        </footer>
+    </div>
+
+    <!-- ================= PAGE 6: REDEFINE SKINCARE CASE STUDY SUBPAGE ================= -->
+    <div id="page-case-redefine" class="hidden page-fade-in py-12">
+        <main class="max-w-4xl mx-auto px-4 md:px-8 space-y-12">
+            <div class="flex items-center justify-between">
+                <button onclick="navigateTo('home')" class="text-xs font-bold bg-brand-cardSub hover:bg-brand-card border border-brand-border text-brand-text px-4 py-2 rounded-lg transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i> 返回主頁 Back to Home
+                </button>
+                <span class="text-xs text-brand-muted font-mono">ONSTAGE / CASE STUDIES / REDEFINE SKINCARE</span>
+            </div>
+
+            <!-- Title Header -->
+            <div class="space-y-4 text-center md:text-left">
+                <span class="text-xs text-brand-neonPink font-bold tracking-widest uppercase">SOCIAL EXTRAVAGANZA</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold text-brand-text font-bold">點石成金！REDefine Skincare 如何利用小紅書與 IG Reels 在 1 個月內創造百萬曝光與銷量翻倍</h1>
+                <div class="flex flex-wrap gap-4 pt-2 text-xs text-brand-muted justify-center md:justify-start">
+                    <span><i class="fa-solid fa-play mr-1.5"></i> Views Generated: 1.2M+</span>
+                    <span>•</span>
+                    <span><i class="fa-solid fa-shop mr-1.5"></i> Direct Purchase Loop</span>
+                    <span>•</span>
+                    <span><i class="fa-solid fa-arrow-up-right-dots mr-1.5"></i> Organic Growth Focus</span>
+                </div>
+            </div>
+
+            <!-- Product Showcase Banner (REDefine Glass bottle) -->
+            <div class="w-full h-80 rounded-2xl overflow-hidden relative border border-brand-border shadow-md">
+                <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1200&q=80" alt="[精華液保養品] REDefine Luxury Glass Serum Dropper Bottle" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                <div class="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <p class="text-xs text-brand-neonPink font-bold font-mono">SOCIAL CONVERSION RATE:</p>
+                        <h4 class="text-lg font-bold text-white keep-white">30天無濾鏡實測挑戰 • 小紅書霸屏種草</h4>
+                    </div>
+                    <span class="bg-brand-neonPink text-white font-extrabold text-xs px-4 py-2 rounded shadow-lg keep-white">Sales Revenue +285%</span>
+                </div>
+            </div>
+
+            <!-- Problem vs Strategy Storytelling -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
+                    <span class="text-xs text-red-500 font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-exclaim"></i> The Problem (社群樽頸)</span>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        REDefine Skincare 面對成熟市場的護膚品紅海，如果跟其他大牌一樣，只做美美的、乾淨的平面海報，幕後小編天天被催著寫硬廣，結果根本得不到任何年輕客戶的停留和轉化。廣告預算高昂，但社群點讚（Engagement）和購買轉化率近乎零。
+                    </p>
+                </div>
+                <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
+                    <span class="text-xs text-brand-neonPink font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-check"></i> Onstage Strategy (爆款公式)</span>
+                    <p class="text-xs text-brand-muted leading-relaxed">
+                        徹底反套路！我們放棄傳統不真實的「零瑕疵硬廣」，轉而策劃高共情、極地道的廣東話小紅書評測片 **「挑戰 30 天不開美顏鏡頭，實測 REDefine 收毛孔精華」**。我們選取了自帶微瑕疵的 KOL Kay Kay 進行極真實的微距滴管拍攝與對比，並通過直接植入「IG 網店一鍵下單」領取折扣碼，徹底縮短了從觀看影片到付款的轉換路徑。
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detailed Xiaohongshu Mockup Panel -->
+            <section class="space-y-4">
+                <h3 class="text-lg font-bold text-brand-text">真實小紅書/IG Reels 種草介面設計展示</h3>
+                <div class="bg-brand-cardSub p-6 rounded-2xl border border-brand-border flex justify-center shadow-inner">
+                    <!-- iPhone Container -->
+                    <div class="w-[280px] bg-black rounded-[40px] border-[6px] border-slate-800 p-3 shadow-2xl relative overflow-hidden">
+                        <div class="h-6 w-24 bg-black rounded-b-xl absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
+                        <div class="w-full h-[460px] rounded-[28px] overflow-hidden relative flex flex-col justify-between p-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" alt="KOL model portrait" class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30 z-0"></div>
+                            
+                            <!-- Top RED app header -->
+                            <div class="flex items-center justify-between text-white z-10 text-[9px] font-bold">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                <div class="flex gap-2">
+                                    <span>關注</span>
+                                    <span class="border-b-2 border-brand-neonPink pb-0.5">推薦</span>
+                                    <span>附近</span>
+                                </div>
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+
+                            <div></div>
+
+                            <!-- Bottom RED meta -->
+                            <div class="z-10 space-y-2 text-white">
+                                <div class="flex items-center gap-1.5">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" alt="KOL avatar thumbnail" class="w-6 h-6 rounded-full border border-white/80 object-cover">
+                                    <span class="text-[10px] font-black">@素顏救星阿Kay 👑</span>
+                                </div>
+                                <div class="inline-block bg-brand-neonPink text-white text-[8px] font-bold px-1.5 py-0.5 rounded">#小紅書素顏30天挑戰</div>
+                                <p class="text-[9px] text-slate-200 leading-relaxed font-normal">
+                                    天呀！無美顏實測！✨ 呢支補水毛孔收縮精華，真係救起我個敏感凹凸肌 🥚
+                                </p>
+                                <div class="flex justify-between items-center text-[9px] text-slate-400 pt-1 border-t border-white/10">
+                                    <span>12.5w 點讚 • 8.9w 收藏</span>
+                                    <span class="text-brand-neonPink font-bold">熱門筆記第一名</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ROI Stats -->
+            <section class="space-y-6">
+                <h3 class="text-lg font-bold text-brand-text">社交爆粉轉化實績 (RED/IG Results)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">自然有機瀏覽數 (Views)</span>
+                        <span class="text-3xl font-black text-brand-neonPink block mt-1">1.2M+ Reach</span>
+                    </div>
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">互動率 (Engagement Rate)</span>
+                        <span class="text-3xl font-black text-brand-neonPink block mt-1">12.8% Industry Peak</span>
+                    </div>
+                    <div class="p-5 bg-brand-card border border-brand-border rounded-xl text-center shadow-sm">
+                        <span class="text-brand-muted text-[10px] uppercase block tracking-wider font-semibold">首月網店銷售額 (Revenue)</span>
+                        <span class="text-3xl font-black text-brand-neonPink block mt-1">+285% Growth</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Back CTA -->
+            <div class="text-center">
+                <button onclick="navigateTo('home', 'contact')" class="px-8 py-3 bg-brand-neonPink text-white font-bold rounded-lg hover:bg-pink-600 transition-all text-xs shadow-md keep-white">
+                    我要做爆款小紅書/IG Reels 影片策劃！ <i class="fa-solid fa-play ml-1"></i>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="bg-brand-cardSub border-t border-brand-border py-12 text-center text-xs text-brand-muted mt-20">
+            <p>© 2026 Onstage Studio. REDefine Skincare Case Subpage Preview.</p>
+        </footer>
+    </div>
+
+    <!-- ================= IMPLEMENTING MULTI-PAGE NAVIGATION & THEME SWITCHER ================= -->
+    <script>
+        // Theme Toggling Script
+        function toggleTheme() {
+            const root = document.documentElement;
+            const themeBtn = document.getElementById('theme-toggle-btn');
+            
+            if (root.classList.contains('theme-light')) {
+                // Change to Dark Mode
+                root.classList.remove('theme-light');
+                themeBtn.innerHTML = '☀️ 切換明亮模式 (Light Mode)';
+                themeBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-amber-500 hover:bg-amber-600 text-white flex items-center gap-1.5 shrink-0 shadow-md shadow-amber-500/20";
+            } else {
+                // Change to Light Mode
+                root.classList.add('theme-light');
+                themeBtn.innerHTML = '🌙 切換暗黑模式 (Dark Mode)';
+                themeBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 hover:bg-slate-850 text-slate-300 flex items-center gap-1.5 shrink-0 border border-slate-700";
+            }
+        }
+
+        // Multi-page routing script
+        function navigateTo(pageId, sectionId = null) {
+            // All pages in our application
+            const pages = ['home', 'creative', 'marketing', 'production', 'case-luxe', 'case-redefine'];
+            
+            // Toggle Page Visibility
+            pages.forEach(p => {
+                const pageElement = document.getElementById(`page-${p}`);
+                const btnElement = document.getElementById(`btn-${p}`);
+                
+                if (pageElement) {
+                    if (p === pageId) {
+                        pageElement.classList.remove('hidden');
+                    } else {
+                        pageElement.classList.add('hidden');
+                    }
+                }
+                
+                // Update Developer Preview Switcher Button Styling
+                if (btnElement) {
+                    if (p === pageId) {
+                        btnElement.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-brand-accent text-white flex items-center gap-1 shrink-0 shadow-md shadow-brand-accent/20";
+                    } else {
+                        btnElement.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 text-slate-400 hover:text-white flex items-center gap-1 shrink-0";
+                    }
+                }
+            });
+
+            // Update Header Navigation Link styling
+            const navHome = document.getElementById('nav-home');
+            if (navHome) {
+                if (pageId === 'home') {
+                    navHome.className = "text-brand-text hover:text-brand-text transition-all";
+                } else {
+                    navHome.className = "text-brand-muted hover:text-brand-text transition-all";
+                }
+            }
+
+            // Update active header badge
+            const badge = document.getElementById('active-page-badge');
+            if (badge) {
+                let displayTitle = pageId.toUpperCase();
+                if (pageId === 'creative') displayTitle = 'SERVICE: BRAND & DESIGN';
+                if (pageId === 'marketing') displayTitle = 'SERVICE: MARKETING & SEO';
+                if (pageId === 'production') displayTitle = 'SERVICE: VIDEO PROD';
+                if (pageId === 'case-luxe') displayTitle = 'CASE: LUXE LIVING';
+                if (pageId === 'case-redefine') displayTitle = 'CASE: REDEFINE';
+                
+                badge.innerHTML = `<i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse text-brand-neonPink"></i> Viewing: ${displayTitle}`;
+            }
+
+            // Scroll Handling
+            if (sectionId) {
+                setTimeout(() => {
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 100);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
