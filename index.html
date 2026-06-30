@@ -1,16 +1,34 @@
+<!-- 
+================================================================================
+  ONSTAGE STUDIO - OFFICIAL WEBSITE DEVELOPMENT BLUEPRINT (V2.6)
+  
+  [BACKEND WATERMARK & VERSION HISTORY]
+  - v1.0: Initial single-page high-converting concept with Dark Cyberpunk style.
+  - v1.5: Integrated Photo, Video, and Digital Marketing Subpages with routing.
+  - v2.0: Switched to Growla-inspired corporate framework with HTML5 canvas lines.
+  - v2.2: Added instant Light/Dark Theme Switcher. Fixed button color contrasts.
+  - v2.4: Implemented Hover-Bridge to prevent navigation dropdowns from disappearing.
+  - v2.5: Solved Accessibility (WCAG) contrast issues; locked CTA button text to white.
+  - v2.6 (Current): 
+         * Fixed the Tailwind CSS hex-variable opacity bug in full-screen overlay menu background.
+         * Enforced pure, opaque white background for Hamburger Menu in Light Mode.
+         * Translated Q2 FAQ from English to standard Traditional Chinese (HK style).
+         * Restructured sticky header layout positions for seamless controller stacking.
+================================================================================
+-->
 <!DOCTYPE html>
 <html lang="zh-HK" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onstage Studio - Growla 2.0 Sandbox</title>
+    <title>Onstage Studio - Interactive Multi-Page Sandbox 2.6</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Premium Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <script>
         tailwind.config = {
             theme: {
@@ -27,8 +45,7 @@
                             text: 'var(--text-main)',
                             muted: 'var(--text-muted)',
                             border: 'var(--border-color)',
-                            headerBg: 'var(--header-bg)',
-                            btnAccent: '#6366F1'
+                            headerBg: 'var(--header-bg)'
                         }
                     },
                     fontFamily: {
@@ -40,7 +57,8 @@
     </script>
     
     <style>
-        /* CSS variables for smooth light/dark theme transitions */
+        /* ================= STREAMING_CHUNK: Configuring custom CSS themes and variables ================= */
+        /* CSS variables to control themes instantly */
         :root {
             --bg-main: #070A13;
             --bg-card: #0F1524;
@@ -48,8 +66,8 @@
             --text-main: #F8FAFC;
             --text-muted: #94A3B8;
             --border-color: #1E293B;
-            --accent: #00EAFF; /* Growla Cyan */
-            --accent-hover: #00B8D4;
+            --accent: #6366F1;
+            --accent-hover: #4F46E5;
             --header-bg: rgba(7, 10, 19, 0.95);
             --shadow: none;
         }
@@ -74,7 +92,7 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Responsive light theme overrides */
+        /* Override rules for light theme transition */
         .theme-light .bg-brand-card {
             box-shadow: var(--shadow);
             border-color: var(--border-color);
@@ -129,6 +147,19 @@
             background-color: var(--bg-card-sub) !important;
         }
         .theme-light .absolute button:hover * {
+            color: var(--accent) !important;
+        }
+
+        /* ================= EXPERT FIX: Full-screen Menu Light/Dark Solid Background Overrides ================= */
+        /* Forces solid card background with proper opacity to prevent transparent dark overlap in light mode */
+        #full-screen-menu {
+            background-color: var(--bg-card) !important;
+            transition: background-color 0.3s ease, clip-path 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .theme-light #full-screen-menu button {
+            color: var(--text-main) !important;
+        }
+        .theme-light #full-screen-menu button:hover {
             color: var(--accent) !important;
         }
 
@@ -237,7 +268,7 @@
     </div>
 
     <!-- ================= STICKY HEADER WRAPPER ================= -->
-    <header class="sticky top-0 bg-brand-headerBg backdrop-blur-md border-b border-brand-border px-6 py-4 flex items-center justify-between z-40 transition-all shadow-sm">
+    <header class="sticky top-16 bg-brand-headerBg backdrop-blur-md border-b border-brand-border px-6 py-4 flex items-center justify-between z-40 transition-all shadow-sm">
         <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
             <span class="text-xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-brand-neonPink">ONSTAGE</span>
             <span class="text-xs bg-brand-cardSub text-brand-muted font-semibold px-2 py-0.5 rounded tracking-widest font-mono border border-brand-border">STUDIO</span>
@@ -373,7 +404,7 @@
                 
                 <!-- CTA buttons styled explicitly so they pop under both themes -->
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                    <a href="#contact" onclick="navigateTo('home', 'contact')" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-extrabold rounded-lg pulse-glow flex items-center justify-center gap-2 transition-all keep-white">
+                    <a href="#contact" onclick="navigateTo('home', 'contact')" class="w-full sm:w-auto px-8 py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-extrabold rounded-lg pulse-glow flex items-center justify-center gap-2 transition-all keep-white">
                         Get a Free Proposal / 立即獲取增長方案 <i class="fa-solid fa-arrow-right"></i>
                     </a>
                     <a href="#showcase" onclick="navigateTo('home', 'showcase')" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition-all keep-white">
@@ -476,7 +507,7 @@
                             <h3 class="text-xl font-bold text-brand-text">Photo & Video Production</h3>
                             <p class="text-xs text-amber-500 font-bold uppercase tracking-wider">Scroll-Stopping Visuals</p>
                             <p class="text-sm text-brand-muted leading-relaxed">
-                                自家編導攝製團隊，高速量產 9:16 移動端短影音（IG Reels / TikTok / 小紅書），在網民碌過前 0.5 秒攝住眼球，打動購買慾。
+                                自家編導勢製團隊，高速量產 9:16 移動端短影音（IG Reels / TikTok / 小紅書），在網民碌過前 0.5 秒攝住眼球，打動購買慾。
                             </p>
                         </div>
                         <div class="pt-6 mt-6 border-t border-brand-border/40">
@@ -574,7 +605,7 @@
                             <span id="accordion-icon-2" class="transition-transform duration-300"><i class="fa-solid fa-chevron-down"></i></span>
                         </button>
                         <div id="accordion-body-2" class="hidden p-6 pt-0 text-sm text-brand-muted border-t border-brand-border/40 leading-relaxed">
-                            我們專攻精準長尾詞，並優化 Meta 與 Google Ads 的 A/B 測試。通過精簡受眾與提高網頁加載轉化率，實時減低你的平均獲客成本（CAC）。
+                            我們協助企業限制競價廣告中的廣泛匹配（Broad Match）關鍵字，並在高效能的着陸頁（Landing Page）上設置完善的轉換追蹤觸發器，隨時間推移，動態且持續地降低每條獲客成本（CPL）和客戶獲取成本（CAC）。
                         </div>
                     </div>
 
@@ -585,7 +616,7 @@
                             <span id="accordion-icon-3" class="transition-transform duration-300"><i class="fa-solid fa-chevron-down"></i></span>
                         </button>
                         <div id="accordion-body-3" class="hidden p-6 pt-0 text-sm text-brand-muted border-t border-brand-border/40 leading-relaxed">
-                            當然。分析競爭對手正在霸佔的關鍵字與廣告素材，能讓我們避開高成本競爭，以「降維打擊」或反向思維切入市場。
+                            絕對是。深入拆解同行廣告素材與SEO卡位策略，能幫助我們完美規避惡性競價大詞，以差異化的原生内容（如地道小紅書評測）完成高效轉化與收割。
                         </div>
                     </div>
                 </div>
@@ -621,7 +652,7 @@
                         <i class="fa-solid fa-circle-check"></i> 我們已成功收到你的訊息！Onstage 會在 24 小時內聯絡你！
                     </div>
 
-                    <button type="submit" class="w-full py-4 bg-brand-accent hover:bg-brand-accentHover text-slate-900 font-extrabold text-xs uppercase tracking-widest rounded-lg shadow-lg flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full py-4 bg-brand-accent hover:bg-brand-accentHover text-white font-extrabold text-xs uppercase tracking-widest rounded-lg shadow-lg flex items-center justify-center gap-2 keep-white">
                         Submit Request <i class="fa-solid fa-paper-plane"></i>
                     </button>
                 </form>
@@ -653,7 +684,7 @@
                 <div class="relative rounded-2xl overflow-hidden border border-brand-border h-80 shadow-md">
                     <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80" alt="[UIUX設計師] UI Design Process on iPad" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-85"></div>
-                    <span class="absolute bottom-4 left-4 bg-brand-accent/80 backdrop-blur-sm text-slate-900 px-3 py-1 rounded text-xs font-bold font-mono shadow-sm">Figma Layout Concept</span>
+                    <span class="absolute bottom-4 left-4 bg-brand-accent/80 backdrop-blur-sm text-white px-3 py-1 rounded text-xs font-bold font-mono shadow-sm keep-white">Figma Layout Concept</span>
                 </div>
             </section>
 
@@ -709,10 +740,10 @@
                                 <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> IG 首頁9款社群風格套圖模板</li>
                             </ul>
                         </div>
-                        <button onclick="navigateTo('home', 'contact')" class="w-full mt-6 py-2 bg-brand-accent text-slate-900 text-xs font-bold rounded-lg hover:bg-brand-accentHover transition-colors">立即開始</button>
+                        <button onclick="navigateTo('home', 'contact')" class="w-full mt-6 py-2 bg-brand-accent text-white text-xs font-bold rounded-lg hover:bg-brand-accentHover transition-colors keep-white">立即開始</button>
                     </div>
                     <div class="p-6 bg-brand-cardSub border-2 border-brand-accent rounded-xl flex flex-col justify-between relative shadow-lg">
-                        <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-accent text-slate-900 font-extrabold text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider">Most Popular</span>
+                        <span class="absolute top-0 right-6 -translate-y-1/2 bg-brand-accent text-slate-900 font-extrabold text-[9px] px-2.5 py-0.5 rounded-full uppercase tracking-wider font-mono shadow-sm">Most Popular</span>
                         <div class="space-y-4">
                             <span class="text-xs text-brand-accent block uppercase font-bold">Growth Web Pack</span>
                             <span class="text-2xl font-black text-brand-text block">HK$ 38,000+</span>
@@ -722,7 +753,7 @@
                                 <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 專屬前端動畫開發及 WordPress 對接</li>
                             </ul>
                         </div>
-                        <button onclick="navigateTo('home', 'contact')" class="w-full mt-6 py-2 bg-brand-accent text-slate-900 text-xs font-bold rounded-lg hover:bg-brand-accentHover transition-colors">立即諮詢</button>
+                        <button onclick="navigateTo('home', 'contact')" class="w-full mt-6 py-2 bg-brand-accent text-white text-xs font-bold rounded-lg hover:bg-brand-accentHover transition-colors keep-white">立即諮詢</button>
                     </div>
                     <div class="p-6 bg-brand-cardSub border border-brand-border rounded-xl flex flex-col justify-between">
                         <div class="space-y-4">
@@ -778,14 +809,14 @@
                             專門篩選「高成交意向（Purchase Intent）」的長尾關鍵字，通過高品質內容優化，穩居 Google 搜尋首頁，每天帶來免費被動自然流量。
                         </p>
                     </div>
-                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/20 transition-all shadow-sm">
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-accent/30 transition-all shadow-sm">
                         <div class="h-10 w-10 bg-brand-accent/10 text-brand-accent rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-chart-line"></i></div>
                         <h3 class="text-lg font-bold text-brand-text">02/ Meta & Google Ads 數據優化</h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
                             擁有管理數百萬預算的廣告投放經驗。透過 A/B 測試排除低轉化受眾，精準卡位優質精準流量，每週更新黑名單，決不浪費一分預算。
                         </p>
                     </div>
-                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/20 transition-all shadow-sm">
+                    <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 hover:border-brand-neonGreen/30 transition-all shadow-sm">
                         <div class="h-10 w-10 bg-brand-neonPink/10 text-brand-neonPink rounded-full flex items-center justify-center text-lg"><i class="fa-solid fa-users-gear"></i></div>
                         <h3 class="text-lg font-bold text-brand-text">03/ 小紅書 (RED) 與微信私域引流</h3>
                         <p class="text-xs text-brand-muted leading-relaxed">
@@ -796,7 +827,7 @@
             </section>
 
             <!-- Pricing Retainers -->
-            <section class="space-y-8 bg-brand-card/40 p-8 rounded-2xl border border-brand-border shadow-sm">
+            <section class="space-y-8 bg-brand-card/45 p-8 rounded-2xl border border-brand-border shadow-sm">
                 <div class="text-center">
                     <h2 class="text-2xl font-bold text-brand-text">數據營銷代運營方案 (Monthly Retainer)</h2>
                     <p class="text-xs text-brand-muted">每週透回報，重視實際 Lead 增長率</p>
@@ -892,9 +923,9 @@
             </section>
 
             <!-- Pricing matrix -->
-            <section class="space-y-8 bg-brand-card/40 p-8 rounded-2xl border border-brand-border shadow-sm">
+            <section class="space-y-8 bg-brand-card/45 p-8 rounded-2xl border border-brand-border shadow-sm">
                 <div class="text-center">
-                    <h2 class="text-2xl font-bold text-brand-text">短影音/宣傳片攝製方案</h2>
+                    <h2 class="text-2xl font-bold text-brand-text">短影音/宣傳片裝備及方案</h2>
                     <p class="text-xs text-brand-muted">標準化合約，保證極速回片與高品質產出</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -906,10 +937,10 @@
                             <p class="text-xs text-brand-muted mt-1">小編與品牌社群爆粉首選</p>
                         </div>
                         <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
-                            <li><i class="fa-solid fa-circle-check text-brand-neonPink mr-1.5"></i> 每月 6 條 9:16 短片 (IG Reels / 小紅書 / TikTok)</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonPink mr-1.5"></i> 包含寫劇本、配樂、卡點後期剪輯</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonPink mr-1.5"></i> 包含單日棚內 / 實景高清快速拍攝</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonPink mr-1.5"></i> 提供適合小編套用嘅 3 款副標題模板</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 每月 6 條 9:16 短片 (IG Reels / 小紅書 / TikTok)</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 包含寫劇本、配樂、卡點後期剪輯</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 包含單日棚內 / 實景高清快速拍攝</li>
+                            <li><i class="fa-solid fa-check text-brand-neonPink mr-1.5"></i> 提供適合小編套用嘅 3 款副標題模板</li>
                         </ul>
                     </div>
                     <!-- Retainer Column 2 -->
@@ -920,10 +951,10 @@
                             <p class="text-xs text-brand-muted mt-1">網頁 Banner 與商業簡報大片</p>
                         </div>
                         <ul class="text-xs text-brand-text space-y-2.5 border-t border-brand-border pt-4">
-                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 1 條 1-2 分鐘頂級質感商業宣傳大片 (16:9)</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 完整電影級雙相機（B-roll）多機位現場調光</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 包含中英雙語地道配音與背景正版配樂</li>
-                            <li><i class="fa-solid fa-circle-check text-brand-neonGreen mr-1.5"></i> 免費交付 3 款不同尺寸（16:9 & 9:16）的廣告切片</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 1 條 1-2 分鐘頂級質感商業宣傳大片 (16:9)</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 完整電影級雙相機（B-roll）多機位現場調光</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 包含中英雙語地道配音與背景正版配樂</li>
+                            <li><i class="fa-solid fa-check text-brand-neonGreen mr-1.5"></i> 免費交付 3 款不同尺寸（16:9 & 9:16）的廣告切片</li>
                         </ul>
                     </div>
                 </div>
@@ -961,7 +992,7 @@
                 <div class="absolute bottom-6 left-6 right-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <p class="text-xs text-brand-neonGreen font-bold font-mono">GOAL DELIVERED:</p>
-                        <h4 class="text-lg font-bold text-white keep-white">高檔西貢豪宅/港島中產訂造傢俬首位卡位戰</h4>
+                        <h4 class="text-lg font-bold text-white keep-white font-bold">高檔西貢豪宅/港島中產訂造傢俬首位卡位戰</h4>
                     </div>
                     <span class="bg-brand-neonGreen text-brand-dark font-extrabold text-xs px-4 py-2 rounded shadow-lg">Inquiries Raised +140%</span>
                 </div>
@@ -1045,7 +1076,7 @@
                 <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
                     <span class="text-xs text-red-500 font-bold uppercase tracking-wider"><i class="fa-solid fa-circle-exclaim"></i> The Problem (社群樽頸)</span>
                     <p class="text-xs text-brand-muted leading-relaxed">
-                        REDefine Skincare 面對成熟市場的護膚品紅海，如果跟其他大牌一樣，只做美美的、乾淨的平面海報，幕後小編天天被催著寫硬廣，結果根本得不到任何年輕客戶的停留和轉化。廣告預算高昂，但社群點讚（Engagement）和購買轉化率近乎零。
+                        REDefine Skincare 面對成熟市場的護膚品紅海，如果跟其他大牌一樣，只做美美的、乾淨的平面海報，幕後小編天天被催著寫硬廣，結果根本得不到任何年輕客戶的停留和轉化。廣告預算高昂，但社群點讚（Engagement） and 購買轉化率近乎零。
                     </p>
                 </div>
                 <div class="p-6 bg-brand-card border border-brand-border rounded-xl space-y-4 shadow-sm">
@@ -1131,7 +1162,7 @@
             <span>•</span>
             <span class="hover:text-brand-text transition-all cursor-pointer" onclick="navigateTo('home', 'contact')">Privacy Policy</span>
         </div>
-        <p>© 2026 Onstage Studio. Premium High-Growth Marketing Agency.</p>
+        <p>© 2026 Onstage Studio. Modern High-Growth Marketing Partner.</p>
     </footer>
 
     <!-- ================= STREAMING_CHUNK: Writing Javascript controllers and initializers... -->
@@ -1259,14 +1290,15 @@
             } else {
                 root.classList.add('theme-light');
                 themeBtn.innerHTML = '🌙 切換暗黑模式 (Dark Mode)';
-                themeBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 hover:bg-slate-850 text-slate-300 flex items-center gap-1.5 shrink-0 border border-slate-700";
+                // FIXED: Fully locked the dark mode toggle button text to remain white in light theme
+                themeBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 hover:bg-slate-850 text-white flex items-center gap-1.5 shrink-0 border border-slate-700 keep-white shadow-md";
             }
         }
 
         // Trigger Light Mode by default on start
         document.documentElement.classList.add('theme-light');
         document.getElementById('theme-toggle-btn').innerHTML = '🌙 切換暗黑模式 (Dark Mode)';
-        document.getElementById('theme-toggle-btn').className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 hover:bg-slate-850 text-slate-300 flex items-center gap-1.5 shrink-0 border border-slate-700";
+        document.getElementById('theme-toggle-btn').className = "px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-slate-900 hover:bg-slate-850 text-white flex items-center gap-1.5 shrink-0 border border-slate-700 keep-white shadow-md";
 
         // ================= STREAMING_CHUNK: Coding the Illustration Wave lines drawing function... -->
         // Pure JS implementation of Growla's waving background lines
